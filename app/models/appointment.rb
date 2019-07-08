@@ -13,13 +13,9 @@ class Appointment < ApplicationRecord
 
   def validate_appointment_date_overlapping
     employee_appointments = Appointment.where(employee_id: employee_id)
-    if employee_appointments.present?
-      employee_appointments.each do |appointment|
-        if start_at >= appointment.start_at && start_at < appointment.end_at
-          errors.add(:base, "Start Time of appointment cannot overlap")
-          return false
-        end
-      end
+    if employee_appointments.present? && employee_appointments.detect{|appointment| start_at >= appointment.start_at && start_at < appointment.end_at}
+      errors.add(:base, "Start time cannot overlap")
+      false
     end
   end
 end
