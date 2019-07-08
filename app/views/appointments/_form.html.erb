@@ -13,11 +13,11 @@
   <%= form.label :description %>
   <%= form.text_field :description %>
   <br>
-  <%= form.label :start_date %>
-  <%= form.datetime_select :start_date %>
+  <%= form.label :start_at %>
+  <%= form.datetime_select :start_at %>
   <br>
-  <%= form.label :end_date %>
-  <%= form.datetime_select :end_date %>
+  <%= form.label :end_at %>
+  <%= form.datetime_select :end_at %>
   <br>
   <%= form.label :employee_id %>
   <%= form.collection_select :employee_id, Employee.all, :id, :name %>

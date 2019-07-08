@@ -3,8 +3,7 @@ class Appointment < ApplicationRecord
   before_save :set_status
   before_save :validate_appointment_date_overlapping
 
-  validates :description, :start_date, :end_date, :employee_id, presence: true
-  scope :employee_appointments, ->(employee_id){ where(employee_id: employee_id) }
+  validates :description, :start_at, :end_at, :employee_id, presence: true
 
   private
 
@@ -13,10 +12,12 @@ class Appointment < ApplicationRecord
   end
 
   def validate_appointment_date_overlapping
+    employee_appointments = Appointment.where(employee_id: employee_id)
     if employee_appointments.present?
       employee_appointments.each do |appointment|
-        if appointment.start_date >= start_date && appointment.end_date < start_date
+        if start_at >= appointment.start_at && start_at < appointment.end_at
           errors.add(:base, "Start Time of appointment cannot overlap")
+          return false
         end
       end
     end
